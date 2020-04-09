@@ -19,6 +19,10 @@ app.use(express.static("public"));
 // Don't forget to download dependencies npm install
 // Add node_modules to .gitignore
 
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
 
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server started on port 3000");
