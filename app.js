@@ -19,6 +19,7 @@ app.use(express.static("public"));
 // Don't forget to download dependencies npm install
 // Add node_modules to .gitignore
 
+// get methods
 app.get("/", (req, res) => {
   res.render("home", {homeStartingContent: homeStartingContent});
 });
@@ -35,6 +36,12 @@ app.get("/compose",  (req, res) => {
   res.render("compose");
 });
 
+// post methods
+app.post("/compose", (req,res) => {
+  let postTitle = req.body.postTitle;
+  console.log(postTitle);
+  res.redirect("/compose");
+});
 
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server started on port 3000");
