@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const _ = require("lodash");
 
 const posts = [];
 const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -22,8 +23,10 @@ app.use(express.static("public"));
 
 // get methods
 app.get("/", (req, res) => {
-  console.log(posts);
-  res.render("home", {homeStartingContent: homeStartingContent});
+  res.render("home", {
+    homeStartingContent: homeStartingContent,
+    posts: posts
+  });
 });
 
 app.get("/about", (req, res) => {
@@ -38,6 +41,20 @@ app.get("/compose",  (req, res) => {
   res.render("compose");
 });
 
+app.get("/posts/:postTitle", (req,res) => {
+  const requestedTitle = _.lowerCase(req.params.postTitle);
+
+  posts.forEach((post) => {
+    const storedTitle = _.lowerCase(post.title);
+    if(storedTitle === requestedTitle)
+    {
+      console.log("Match found!");
+    } else {
+      console.log("Not a Match!");
+    }
+  });
+  
+});
 // post methods
 app.post("/compose", (req,res) => {
   const post = {
